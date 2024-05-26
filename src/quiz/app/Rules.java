@@ -56,7 +56,7 @@ public class Rules extends JFrame implements ActionListener {
         start.addActionListener(this);
         add(start);
 
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/back.png"));
+        ImageIcon i1 = new ImageIcon("/Users/ewelinaborkowska/Projects/QuizApp/src/icons/back.png");
         Image i = i1.getImage().getScaledInstance(800, 650, Image.SCALE_DEFAULT);
         ImageIcon i2 = new ImageIcon(i);
         JLabel image = new JLabel(i2);
@@ -67,6 +67,7 @@ public class Rules extends JFrame implements ActionListener {
         setSize(800, 650);
         setLocation(500, 300);
         setLayout(null);
+        setUndecorated(true);
         setVisible(true);
 
     }

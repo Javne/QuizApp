@@ -54,6 +54,7 @@ public class Score extends JFrame {
         setSize(850, 550);
         setLocation(600, 150);
         setLayout(null);
+        setUndecorated(true);
         setVisible(true);
 
     }

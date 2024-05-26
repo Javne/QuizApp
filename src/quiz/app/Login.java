@@ -15,7 +15,7 @@ public class Login extends JFrame implements ActionListener {
         getContentPane().setBackground(Color.WHITE);
         setLayout(null);
 
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/login.png"));
+        ImageIcon i1 = new ImageIcon("/Users/ewelinaborkowska/Projects/QuizApp/src/icons/login.png");
         Image i = i1.getImage().getScaledInstance(550, 500, Image.SCALE_DEFAULT);
         ImageIcon i2 = new ImageIcon(i);
         JLabel image = new JLabel(i2);
@@ -61,6 +61,7 @@ public class Login extends JFrame implements ActionListener {
 
         setSize(1000, 500);
         setLocation(500, 300);
+        setUndecorated(true);
         setVisible(true);
 
 

@@ -1,12 +1,13 @@
 package quiz.app;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.text.StringEscapeUtils;
 
 public class Quiz extends JFrame implements ActionListener {
 
@@ -28,6 +29,7 @@ public class Quiz extends JFrame implements ActionListener {
     public static int score = 0;
 
     String name;
+    Timer quizTimer;
 
     Quiz(String name) {
         this.name = name;
@@ -114,10 +116,19 @@ public class Quiz extends JFrame implements ActionListener {
         start(count);
 
         setSize(1440, 850);
-        setLocation(50, 0);
+        setLocation(260, 130);
         getContentPane().setBackground(Color.WHITE);
+        setUndecorated(true);
         setLayout(null);
         setVisible(true);
+
+        quizTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                repaint();
+            }
+        });
+        quizTimer.start();
     }
 
     private void loadQuestions(List<Map<String, Object>> fetchedQuestions) {
@@ -136,24 +147,18 @@ public class Quiz extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == next) {
-            repaint();
-            opt1.setEnabled(true);
-            opt2.setEnabled(true);
-            opt3.setEnabled(true);
-            opt4.setEnabled(true);
-            ans_given = 1;
             if (group.getSelection() == null) {
                 userAnswers[count][0] = "";
             } else {
                 userAnswers[count][0] = group.getSelection().getActionCommand();
             }
 
-            if (count == 8) {
+            count++;
+            if (count == 9) {
                 next.setEnabled(false);
                 submit.setEnabled(true);
             }
 
-            count++;
             start(count);
 
         } else if (e.getSource() == help) {
@@ -166,59 +171,42 @@ public class Quiz extends JFrame implements ActionListener {
             }
             help.setEnabled(false);
         } else if (e.getSource() == submit) {
-            ans_given = 1;
             if (group.getSelection() == null) {
                 userAnswers[count][0] = "";
-            }
-            else {
+            } else {
                 userAnswers[count][0] = group.getSelection().getActionCommand();
             }
             for (int i = 0; i < userAnswers.length; i++) {
                 if (userAnswers[i][0].equals(answers[i][1])) {
                     score += 10;
-                } else {
-                    score += 0;
                 }
             }
             setVisible(false);
             new Score(name, score);
+            quizTimer.stop();
         }
     }
 
     public void paint(Graphics g) {
         super.paint(g);
         String time = "Time left - " + timer + " seconds";
-        g.setColor(Color.PINK);
+        g.setColor(Color.RED);
         g.setFont(new Font("Tahoma", Font.BOLD, 25));
         if (timer > 0) {
-            g.drawString(time, 500, 400);
+            g.drawString(time, 500, 370);
         } else {
-            g.drawString("Times up !!!", 500, 400);
+            g.drawString("Times up !!!", 500, 370);
+            ans_given = 1;
         }
         timer--;
 
-        try {
-            Thread.sleep(1000);
-            repaint();
-
-        } catch (Exception E) {
-            E.printStackTrace();
-        }
-
         if (ans_given == 1) {
             ans_given = 0;
-            timer = 15;
-        } else if (timer < 0) {
             timer = 15;
             opt1.setEnabled(true);
             opt2.setEnabled(true);
             opt3.setEnabled(true);
             opt4.setEnabled(true);
-
-            if (count == 8) {
-                next.setEnabled(false);
-                submit.setEnabled(true);
-            }
 
             if (count == 9) {
                 if (group.getSelection() == null) {
@@ -229,12 +217,11 @@ public class Quiz extends JFrame implements ActionListener {
                 for (int i = 0; i < userAnswers.length; i++) {
                     if (userAnswers[i][0].equals(answers[i][1])) {
                         score += 10;
-                    } else {
-                        score += 0;
                     }
                 }
                 setVisible(false);
                 new Score(name, score);
+                quizTimer.stop();
 
             } else {
                 if (group.getSelection() == null) {

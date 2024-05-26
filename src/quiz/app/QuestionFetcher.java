@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
