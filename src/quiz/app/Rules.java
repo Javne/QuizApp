@@ -3,8 +3,10 @@ package quiz.app;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Rules extends JFrame {
+public class Rules extends JFrame implements ActionListener {
 
     JButton start, back;
 
@@ -38,6 +40,7 @@ public class Rules extends JFrame {
         back.setForeground(Color.WHITE);
         back.setOpaque(true);
         back.setBorderPainted(false);
+        back.addActionListener(this);
         add(back);
 
         start = new JButton("Start");
@@ -46,14 +49,33 @@ public class Rules extends JFrame {
         start.setForeground(Color.WHITE);
         start.setOpaque(true);
         start.setBorderPainted(false);
+        start.addActionListener(this);
         add(start);
 
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/back.png"));
+        Image i = i1.getImage().getScaledInstance(800, 650, Image.SCALE_DEFAULT);
+        ImageIcon i2 = new ImageIcon(i);
+        JLabel image = new JLabel(i2);
+        image.setBounds(0,0,800,650);
+        add(image);
 
-        setSize(1000, 500);
+
+        setSize(800, 650);
         setLocation(500, 300);
         setLayout(null);
         setVisible(true);
 
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == start){
+
+        } else {
+            setVisible(false);
+            new Login();
+        }
     }
 
     public static void main(String[] args) {
